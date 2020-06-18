@@ -1,0 +1,101 @@
+digraph {
+	compound = "true"
+	newrank = "true"
+	subgraph "root" {
+		"[root] aws_autoscaling_group.ASG_tf_sg" [label = "aws_autoscaling_group.ASG_tf_sg", shape = "box"]
+		"[root] aws_eip.EIP_ALB" [label = "aws_eip.EIP_ALB", shape = "box"]
+		"[root] aws_instance.PrivateEC2" [label = "aws_instance.PrivateEC2", shape = "box"]
+		"[root] aws_instance.PublicEC2" [label = "aws_instance.PublicEC2", shape = "box"]
+		"[root] aws_internet_gateway.IGW_ALB" [label = "aws_internet_gateway.IGW_ALB", shape = "box"]
+		"[root] aws_launch_configuration.ASG_LC" [label = "aws_launch_configuration.ASG_LC", shape = "box"]
+		"[root] aws_lb.Application_Load_Balancer" [label = "aws_lb.Application_Load_Balancer", shape = "box"]
+		"[root] aws_lb_listener.front_end" [label = "aws_lb_listener.front_end", shape = "box"]
+		"[root] aws_lb_target_group.targetgroup_lb" [label = "aws_lb_target_group.targetgroup_lb", shape = "box"]
+		"[root] aws_lb_target_group_attachment.attach_targetgroup" [label = "aws_lb_target_group_attachment.attach_targetgroup", shape = "box"]
+		"[root] aws_nat_gateway.NAT_GW" [label = "aws_nat_gateway.NAT_GW", shape = "box"]
+		"[root] aws_route_table.private_routetable" [label = "aws_route_table.private_routetable", shape = "box"]
+		"[root] aws_route_table.public_routetable" [label = "aws_route_table.public_routetable", shape = "box"]
+		"[root] aws_route_table_association.RT_association_private" [label = "aws_route_table_association.RT_association_private", shape = "box"]
+		"[root] aws_route_table_association.RT_association_public" [label = "aws_route_table_association.RT_association_public", shape = "box"]
+		"[root] aws_security_group.ALB_TF_SG" [label = "aws_security_group.ALB_TF_SG", shape = "box"]
+		"[root] aws_security_group.SG_private_SG" [label = "aws_security_group.SG_private_SG", shape = "box"]
+		"[root] aws_security_group.SG_public_SG" [label = "aws_security_group.SG_public_SG", shape = "box"]
+		"[root] aws_subnet.private_subnet2_ALB" [label = "aws_subnet.private_subnet2_ALB", shape = "box"]
+		"[root] aws_subnet.public_subnet1_ALB" [label = "aws_subnet.public_subnet1_ALB", shape = "box"]
+		"[root] aws_vpc.vpc_ALB" [label = "aws_vpc.vpc_ALB", shape = "box"]
+		"[root] output.DNS_LB" [label = "output.DNS_LB", shape = "note"]
+		"[root] provider.aws" [label = "provider.aws", shape = "diamond"]
+		"[root] var.ami" [label = "var.ami", shape = "note"]
+		"[root] var.availibity_zone" [label = "var.availibity_zone", shape = "note"]
+		"[root] var.cidr_block" [label = "var.cidr_block", shape = "note"]
+		"[root] var.instance_type" [label = "var.instance_type", shape = "note"]
+		"[root] var.private_subnet_cidr" [label = "var.private_subnet_cidr", shape = "note"]
+		"[root] var.private_subnet_names" [label = "var.private_subnet_names", shape = "note"]
+		"[root] var.public_subnet_cidr" [label = "var.public_subnet_cidr", shape = "note"]
+		"[root] var.public_subnet_names" [label = "var.public_subnet_names", shape = "note"]
+		"[root] var.region" [label = "var.region", shape = "note"]
+		"[root] aws_autoscaling_group.ASG_tf_sg" -> "[root] aws_launch_configuration.ASG_LC"
+		"[root] aws_autoscaling_group.ASG_tf_sg" -> "[root] aws_lb_target_group.targetgroup_lb"
+		"[root] aws_autoscaling_group.ASG_tf_sg" -> "[root] aws_subnet.public_subnet1_ALB"
+		"[root] aws_eip.EIP_ALB" -> "[root] provider.aws"
+		"[root] aws_instance.PrivateEC2" -> "[root] aws_security_group.SG_private_SG"
+		"[root] aws_instance.PrivateEC2" -> "[root] aws_subnet.private_subnet2_ALB"
+		"[root] aws_instance.PrivateEC2" -> "[root] var.ami"
+		"[root] aws_instance.PrivateEC2" -> "[root] var.instance_type"
+		"[root] aws_instance.PublicEC2" -> "[root] aws_security_group.SG_public_SG"
+		"[root] aws_instance.PublicEC2" -> "[root] aws_subnet.public_subnet1_ALB"
+		"[root] aws_instance.PublicEC2" -> "[root] var.ami"
+		"[root] aws_instance.PublicEC2" -> "[root] var.instance_type"
+		"[root] aws_instance.PublicEC2" -> "[root] var.private_subnet_cidr"
+		"[root] aws_internet_gateway.IGW_ALB" -> "[root] aws_vpc.vpc_ALB"
+		"[root] aws_launch_configuration.ASG_LC" -> "[root] aws_security_group.ALB_TF_SG"
+		"[root] aws_launch_configuration.ASG_LC" -> "[root] var.ami"
+		"[root] aws_launch_configuration.ASG_LC" -> "[root] var.instance_type"
+		"[root] aws_lb.Application_Load_Balancer" -> "[root] aws_security_group.ALB_TF_SG"
+		"[root] aws_lb.Application_Load_Balancer" -> "[root] aws_subnet.public_subnet1_ALB"
+		"[root] aws_lb_listener.front_end" -> "[root] aws_lb.Application_Load_Balancer"
+		"[root] aws_lb_listener.front_end" -> "[root] aws_lb_target_group.targetgroup_lb"
+		"[root] aws_lb_target_group.targetgroup_lb" -> "[root] aws_vpc.vpc_ALB"
+		"[root] aws_lb_target_group_attachment.attach_targetgroup" -> "[root] aws_instance.PublicEC2"
+		"[root] aws_lb_target_group_attachment.attach_targetgroup" -> "[root] aws_lb_target_group.targetgroup_lb"
+		"[root] aws_nat_gateway.NAT_GW" -> "[root] aws_eip.EIP_ALB"
+		"[root] aws_nat_gateway.NAT_GW" -> "[root] aws_subnet.public_subnet1_ALB"
+		"[root] aws_route_table.private_routetable" -> "[root] aws_nat_gateway.NAT_GW"
+		"[root] aws_route_table.public_routetable" -> "[root] aws_internet_gateway.IGW_ALB"
+		"[root] aws_route_table_association.RT_association_private" -> "[root] aws_route_table.private_routetable"
+		"[root] aws_route_table_association.RT_association_private" -> "[root] aws_subnet.private_subnet2_ALB"
+		"[root] aws_route_table_association.RT_association_public" -> "[root] aws_route_table.public_routetable"
+		"[root] aws_route_table_association.RT_association_public" -> "[root] aws_subnet.public_subnet1_ALB"
+		"[root] aws_security_group.ALB_TF_SG" -> "[root] aws_vpc.vpc_ALB"
+		"[root] aws_security_group.SG_private_SG" -> "[root] aws_security_group.SG_public_SG"
+		"[root] aws_security_group.SG_public_SG" -> "[root] aws_security_group.ALB_TF_SG"
+		"[root] aws_subnet.private_subnet2_ALB" -> "[root] aws_vpc.vpc_ALB"
+		"[root] aws_subnet.private_subnet2_ALB" -> "[root] var.availibity_zone"
+		"[root] aws_subnet.private_subnet2_ALB" -> "[root] var.private_subnet_cidr"
+		"[root] aws_subnet.private_subnet2_ALB" -> "[root] var.private_subnet_names"
+		"[root] aws_subnet.public_subnet1_ALB" -> "[root] aws_vpc.vpc_ALB"
+		"[root] aws_subnet.public_subnet1_ALB" -> "[root] var.availibity_zone"
+		"[root] aws_subnet.public_subnet1_ALB" -> "[root] var.public_subnet_cidr"
+		"[root] aws_subnet.public_subnet1_ALB" -> "[root] var.public_subnet_names"
+		"[root] aws_vpc.vpc_ALB" -> "[root] provider.aws"
+		"[root] aws_vpc.vpc_ALB" -> "[root] var.cidr_block"
+		"[root] meta.count-boundary (EachMode fixup)" -> "[root] aws_autoscaling_group.ASG_tf_sg"
+		"[root] meta.count-boundary (EachMode fixup)" -> "[root] aws_instance.PrivateEC2"
+		"[root] meta.count-boundary (EachMode fixup)" -> "[root] aws_lb_listener.front_end"
+		"[root] meta.count-boundary (EachMode fixup)" -> "[root] aws_lb_target_group_attachment.attach_targetgroup"
+		"[root] meta.count-boundary (EachMode fixup)" -> "[root] aws_route_table_association.RT_association_private"
+		"[root] meta.count-boundary (EachMode fixup)" -> "[root] aws_route_table_association.RT_association_public"
+		"[root] meta.count-boundary (EachMode fixup)" -> "[root] output.DNS_LB"
+		"[root] output.DNS_LB" -> "[root] aws_lb.Application_Load_Balancer"
+		"[root] provider.aws (close)" -> "[root] aws_autoscaling_group.ASG_tf_sg"
+		"[root] provider.aws (close)" -> "[root] aws_instance.PrivateEC2"
+		"[root] provider.aws (close)" -> "[root] aws_lb_listener.front_end"
+		"[root] provider.aws (close)" -> "[root] aws_lb_target_group_attachment.attach_targetgroup"
+		"[root] provider.aws (close)" -> "[root] aws_route_table_association.RT_association_private"
+		"[root] provider.aws (close)" -> "[root] aws_route_table_association.RT_association_public"
+		"[root] provider.aws" -> "[root] var.region"
+		"[root] root" -> "[root] meta.count-boundary (EachMode fixup)"
+		"[root] root" -> "[root] provider.aws (close)"
+	}
+}
+
